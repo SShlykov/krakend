@@ -1,0 +1,16 @@
+services:
+  login_svc:
+    build:
+        context: .
+        dockerfile: Dockerfile
+
+  krakend_ce:
+    image: devopsfaith/krakend:watch
+    volumes:
+      - ./config/krakend:/etc/krakend
+      - ./jwk.txt:/tokens/jwk.txt
+    ports:
+      - "1234:1234"
+      - "8080:8080"
+      - "8090:8090"
+    command: [ "run", "-d", "-c", "/etc/krakend/krakend.json" ]

@@ -1,0 +1,40 @@
+{
+  "version": 3,
+  "name": "krakend API Gateway",
+  "endpoints": [
+    {
+      "endpoint": "/posts/{id}",
+      "method": "GET",
+      "extra_config": {
+        "auth/validator": {
+          "alg": "HS256",
+          "disable_jwk_security": true,
+          "operation_debug": true,
+          "roles_key": "user_role",
+          "roles": ["admin", "user"],
+          "jwk_local_path": "/tokens/jwk.txt"
+        }
+      },
+      "backend": [
+        {
+          "url_pattern": "/posts/{id}",
+          "host": [
+            "https://jsonplaceholder.typicode.com"
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/login",
+      "method": "POST",
+      "backend": [
+        {
+          "url_pattern": "/login",
+          "host": [
+            "login_svc:8080"
+          ]
+        }
+      ]
+    }
+  ]
+}
